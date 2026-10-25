@@ -24,3 +24,7 @@ Thumbs.db
 .idea/
 .vscode/
 .workbuddy/
+
+# 部署辅助脚本（含 Token 处理，不入库）
+一键部署到GitHub.bat
+push_to_github.py
