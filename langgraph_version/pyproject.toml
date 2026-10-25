@@ -1,0 +1,18 @@
+[project]
+name = "audience-agent-langgraph"
+version = "0.1.0"
+description = "人群圈选 Agent：LangGraph 图编排版本（路由 / 生成 / 执行 / 自愈）"
+requires-python = ">=3.10"
+dependencies = [
+    "langgraph>=0.2",
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+    # 产品层（app/）依赖：Web 服务与 ASGI 服务器
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+]
+
+# 说明：LLM 调用默认走标准库 urllib，因此不需要 langchain-openai。
+# 如果要把 LLM 换成 LangChain 的封装，追加下面这一行依赖即可：
+#   "langchain-openai>=0.2",
+# 然后按 README 里的示例把 llm_client 换成 ChatOpenAI。

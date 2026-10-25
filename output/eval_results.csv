@@ -1,0 +1,97 @@
+﻿case_id,level,version,question,gen_sql,exec_ok,retries,n_pred,n_gold,tp,precision,recall,f1,passed,bad_type
+S01,简单,v1_basic,圈出所有钻石会员,SELECT user_id FROM user_tags WHERE member_level = '钻石',True,1,125,125,125,1.0,1.0,1.0,True,
+S02,简单,v1_basic,圈出高价值用户,SELECT user_id FROM user_tags WHERE is_high_value = 1,True,0,961,961,961,1.0,1.0,1.0,True,
+S03,简单,v1_basic,圈出偏好美妆的用户,SELECT user_id FROM user_tags WHERE category_pref = '美妆',True,0,743,743,743,1.0,1.0,1.0,True,
+S04,简单,v1_basic,圈出女性用户,SELECT user_id FROM user_tags WHERE gender = '女',True,0,1613,1613,1613,1.0,1.0,1.0,True,
+S05,简单,v1_basic,圈出一线城市用户,SELECT user_id FROM user_tags WHERE city_tier = '一线',True,0,444,444,444,1.0,1.0,1.0,True,
+S06,简单,v1_basic,圈出开启了推送的用户,SELECT user_id FROM user_tags WHERE push_enabled = 1,True,0,1626,1626,1626,1.0,1.0,1.0,True,
+S07,简单,v1_basic,圈出流失预警用户,SELECT user_id FROM user_tags WHERE churn_risk = 1,True,0,345,345,345,1.0,1.0,1.0,True,
+S08,简单,v1_basic,圈出近30天有加购行为的用户,SELECT user_id FROM user_tags WHERE add_cart_30d = 1,True,0,1038,1038,1038,1.0,1.0,1.0,True,
+S09,简单,v1_basic,圈出银卡会员,SELECT user_id FROM user_tags WHERE member_level = '银卡',True,0,771,771,771,1.0,1.0,1.0,True,
+S10,简单,v1_basic,圈出18到25岁的用户,SELECT user_id FROM user_tags WHERE age BETWEEN 18 AND 25,True,0,677,677,677,1.0,1.0,1.0,True,
+C01,组合,v1_basic,圈出近30天加购但未下单的高价值用户,SELECT user_id FROM user_tags WHERE add_cart_30d = 1 AND order_30d = 0,True,0,761,164,164,0.2155,1.0,0.3546,False,条件遗漏（漏加条件）
+C02,组合,v1_basic,圈出流失预警的美妆用户,SELECT user_id FROM user_tags WHERE churn_risk = 1 AND category_pref = '美妆',True,0,92,92,92,1.0,1.0,1.0,True,
+C03,组合,v1_basic,圈出一线和新一线城市的女性金卡会员,"SELECT user_id FROM user_tags WHERE city_tier IN ('一线', '新一线') AND gender = '女' AND member_level = '金卡'",True,0,99,99,99,1.0,1.0,1.0,True,
+C04,组合,v1_basic,圈出近30天有下单但没开推送的用户,SELECT user_id FROM user_tags WHERE push_enabled = 0,True,0,1374,353,353,0.2569,1.0,0.4088,False,条件遗漏（漏加条件）
+C05,组合,v1_basic,圈出三线及以下城市的母婴偏好用户,SELECT user_id FROM user_tags WHERE category_pref = '母婴',True,0,301,92,92,0.3056,1.0,0.4682,False,条件遗漏（漏加条件）
+C06,组合,v1_basic,圈出近90天购买3次及以上的数码用户,SELECT user_id FROM user_tags WHERE purchase_90d_cnt >= 3,True,0,1092,161,161,0.1474,1.0,0.257,False,条件遗漏（漏加条件）
+C07,组合,v1_basic,圈出用过优惠券的服饰偏好女性用户,SELECT user_id FROM user_tags WHERE category_pref = '服饰' AND gender = '女',True,0,333,118,118,0.3544,1.0,0.5233,False,条件遗漏（漏加条件）
+C08,组合,v1_basic,圈出26到40岁的食品偏好用户,SELECT user_id FROM user_tags WHERE age BETWEEN 26 AND 40 AND category_pref = '食品',True,0,352,352,352,1.0,1.0,1.0,True,
+T01,时间,v1_basic,圈出近7天活跃的用户,"SELECT user_id FROM user_tags WHERE last_active_date >= date('2026-10-10', '-4 day')",True,0,558,827,558,1.0,0.6747,0.8058,False,时间口径错误（基准日/窗口天数/NULL处理）
+T02,时间,v1_basic,圈出近30天有下单的用户,"SELECT user_id FROM user_tags WHERE last_order_date >= date('2026-10-10', '-30 day')",True,0,735,735,735,1.0,1.0,1.0,True,
+T03,时间,v1_basic,圈出超过60天没活跃的沉默用户,"SELECT user_id FROM user_tags WHERE last_active_date <= date('2026-10-10', '-63 day')",True,0,194,225,194,1.0,0.8622,0.926,False,时间口径错误（基准日/窗口天数/NULL处理）
+T04,时间,v1_basic,圈出近90天购买2次及以上的用户,SELECT user_id FROM user_tags WHERE purchase_90d_cnt >= 2,True,0,1268,1268,1268,1.0,1.0,1.0,True,
+T05,时间,v1_basic,圈出近30天注册的新用户,"SELECT user_id FROM user_tags WHERE register_date >= date('2026-10-10', '-30 day')",True,0,134,134,134,1.0,1.0,1.0,True,
+T06,时间,v1_basic,圈出近14天活跃但近30天没下单的用户,"SELECT user_id FROM user_tags WHERE last_active_date >= date('2026-10-10', '-21 day') AND (last_order_date < date('2026-10-10', '-30 day') OR last_order_date IS NULL)",True,0,1371,1029,1029,0.7505,1.0,0.8575,False,时间口径错误（基准日/窗口天数/NULL处理）
+A01,歧义,v1_basic,圈出活跃用户,SELECT user_id FROM user_tags WHERE is_high_value = 1,True,0,961,827,252,0.2622,0.3047,0.2819,False,业务口径理解偏差
+A02,歧义,v1_basic,圈出老客,SELECT user_id FROM user_tags WHERE purchase_90d_cnt >= 3,True,0,1092,2199,791,0.7244,0.3597,0.4807,False,业务口径理解偏差
+A03,歧义,v1_basic,圈出高潜用户,SELECT user_id FROM user_tags WHERE add_cart_30d = 1 AND order_30d = 0,True,0,761,761,761,1.0,1.0,1.0,True,
+X01,矛盾,v1_basic,圈出金卡会员且从未注册的用户,SELECT user_id FROM user_tags WHERE member_level = '金卡' OR register_date IS NULL,True,0,434,0,0,0.0,1.0,0.0,False,矛盾条件处理错误（AND/OR混淆或擅自放松条件）
+X02,矛盾,v1_basic,圈出近30天下单超过5次且近90天购买次数为0的用户,SELECT user_id FROM user_tags WHERE order_cnt_30d > 5 OR purchase_90d_cnt = 0,True,0,1640,0,0,0.0,1.0,0.0,False,矛盾条件处理错误（AND/OR混淆或擅自放松条件）
+X03,矛盾,v1_basic,圈出年龄小于18岁且大于60岁的用户,SELECT user_id FROM user_tags WHERE age < 18 OR age > 60,True,0,260,0,0,0.0,1.0,0.0,False,矛盾条件处理错误（AND/OR混淆或擅自放松条件）
+B01,兜底,v1_basic,你们这个产品是干嘛的？,,True,0,0,0,0,1.0,1.0,1.0,True,
+B02,兜底,v1_basic,今天天气怎么样,,True,0,0,0,0,1.0,1.0,1.0,True,
+S01,简单,v2_role_fewshot,圈出所有钻石会员,SELECT user_id FROM user_tags WHERE member_level = '钻石',True,0,125,125,125,1.0,1.0,1.0,True,
+S02,简单,v2_role_fewshot,圈出高价值用户,SELECT user_id FROM user_tags WHERE is_high_value = 1,True,0,961,961,961,1.0,1.0,1.0,True,
+S03,简单,v2_role_fewshot,圈出偏好美妆的用户,SELECT user_id FROM user_tags WHERE category_pref = '美妆',True,0,743,743,743,1.0,1.0,1.0,True,
+S04,简单,v2_role_fewshot,圈出女性用户,SELECT user_id FROM user_tags WHERE gender = '女',True,0,1613,1613,1613,1.0,1.0,1.0,True,
+S05,简单,v2_role_fewshot,圈出一线城市用户,SELECT user_id FROM user_tags WHERE city_tier = '一线',True,0,444,444,444,1.0,1.0,1.0,True,
+S06,简单,v2_role_fewshot,圈出开启了推送的用户,SELECT user_id FROM user_tags WHERE push_enabled = 1,True,0,1626,1626,1626,1.0,1.0,1.0,True,
+S07,简单,v2_role_fewshot,圈出流失预警用户,SELECT user_id FROM user_tags WHERE churn_risk = 1,True,0,345,345,345,1.0,1.0,1.0,True,
+S08,简单,v2_role_fewshot,圈出近30天有加购行为的用户,SELECT user_id FROM user_tags WHERE add_cart_30d = 1,True,0,1038,1038,1038,1.0,1.0,1.0,True,
+S09,简单,v2_role_fewshot,圈出银卡会员,SELECT user_id FROM user_tags WHERE member_level = '银卡',True,0,771,771,771,1.0,1.0,1.0,True,
+S10,简单,v2_role_fewshot,圈出18到25岁的用户,SELECT user_id FROM user_tags WHERE age BETWEEN 18 AND 25,True,0,677,677,677,1.0,1.0,1.0,True,
+C01,组合,v2_role_fewshot,圈出近30天加购但未下单的高价值用户,SELECT user_id FROM user_tags WHERE add_cart_30d = 1 AND order_30d = 0 AND is_high_value = 1,True,0,164,164,164,1.0,1.0,1.0,True,
+C02,组合,v2_role_fewshot,圈出流失预警的美妆用户,SELECT user_id FROM user_tags WHERE churn_risk = 1 AND category_pref = '美妆',True,0,92,92,92,1.0,1.0,1.0,True,
+C03,组合,v2_role_fewshot,圈出一线和新一线城市的女性金卡会员,"SELECT user_id FROM user_tags WHERE city_tier IN ('一线', '新一线') AND member_level = '金卡'",True,0,169,99,99,0.5858,1.0,0.7388,False,条件遗漏（漏加条件）
+C04,组合,v2_role_fewshot,圈出近30天有下单但没开推送的用户,SELECT user_id FROM user_tags WHERE order_30d = 1,True,0,735,353,353,0.4803,1.0,0.6489,False,条件遗漏（漏加条件）
+C05,组合,v2_role_fewshot,圈出三线及以下城市的母婴偏好用户,SELECT user_id FROM user_tags WHERE city_tier = '三线及以下' AND category_pref = '母婴',True,0,92,92,92,1.0,1.0,1.0,True,
+C06,组合,v2_role_fewshot,圈出近90天购买3次及以上的数码用户,SELECT user_id FROM user_tags WHERE purchase_90d_cnt >= 3 AND category_pref = '数码',True,0,161,161,161,1.0,1.0,1.0,True,
+C07,组合,v2_role_fewshot,圈出用过优惠券的服饰偏好女性用户,SELECT user_id FROM user_tags WHERE coupon_user = 1 AND category_pref = '服饰' AND gender = '女',True,0,118,118,118,1.0,1.0,1.0,True,
+C08,组合,v2_role_fewshot,圈出26到40岁的食品偏好用户,SELECT user_id FROM user_tags WHERE age BETWEEN 26 AND 40 AND category_pref = '食品',True,0,352,352,352,1.0,1.0,1.0,True,
+T01,时间,v2_role_fewshot,圈出近7天活跃的用户,"SELECT user_id FROM user_tags WHERE last_active_date >= date('2026-10-10', '-7 day')",True,0,827,827,827,1.0,1.0,1.0,True,
+T02,时间,v2_role_fewshot,圈出近30天有下单的用户,"SELECT user_id FROM user_tags WHERE last_order_date >= date('2026-10-10', '-30 day')",True,0,735,735,735,1.0,1.0,1.0,True,
+T03,时间,v2_role_fewshot,圈出超过60天没活跃的沉默用户,"SELECT user_id FROM user_tags WHERE last_active_date <= date('2026-10-10', '-60 day')",True,0,225,225,225,1.0,1.0,1.0,True,
+T04,时间,v2_role_fewshot,圈出近90天购买2次及以上的用户,SELECT user_id FROM user_tags WHERE purchase_90d_cnt >= 2,True,0,1268,1268,1268,1.0,1.0,1.0,True,
+T05,时间,v2_role_fewshot,圈出近30天注册的新用户,"SELECT user_id FROM user_tags WHERE register_date >= date('2026-10-10', '-30 day')",True,0,134,134,134,1.0,1.0,1.0,True,
+T06,时间,v2_role_fewshot,圈出近14天活跃但近30天没下单的用户,"SELECT user_id FROM user_tags WHERE last_active_date >= date('2026-10-10', '-14 day') AND (last_order_date < date('2026-10-10', '-30 day') OR last_order_date IS NULL)",True,0,1029,1029,1029,1.0,1.0,1.0,True,
+A01,歧义,v2_role_fewshot,圈出活跃用户,SELECT user_id FROM user_tags WHERE is_high_value = 1,True,0,961,827,252,0.2622,0.3047,0.2819,False,业务口径理解偏差
+A02,歧义,v2_role_fewshot,圈出老客,SELECT user_id FROM user_tags WHERE purchase_90d_cnt >= 3,True,0,1092,2199,791,0.7244,0.3597,0.4807,False,业务口径理解偏差
+A03,歧义,v2_role_fewshot,圈出高潜用户,SELECT user_id FROM user_tags WHERE add_cart_30d = 1 AND order_30d = 0,True,0,761,761,761,1.0,1.0,1.0,True,
+X01,矛盾,v2_role_fewshot,圈出金卡会员且从未注册的用户,SELECT user_id FROM user_tags WHERE member_level = '金卡' AND register_date IS NULL,True,0,0,0,0,1.0,1.0,1.0,True,
+X02,矛盾,v2_role_fewshot,圈出近30天下单超过5次且近90天购买次数为0的用户,SELECT user_id FROM user_tags WHERE order_cnt_30d > 5 AND purchase_90d_cnt = 0,True,0,0,0,0,1.0,1.0,1.0,True,
+X03,矛盾,v2_role_fewshot,圈出年龄小于18岁且大于60岁的用户,SELECT user_id FROM user_tags WHERE age < 18 AND age > 60,True,0,0,0,0,1.0,1.0,1.0,True,
+B01,兜底,v2_role_fewshot,你们这个产品是干嘛的？,,True,0,0,0,0,1.0,1.0,1.0,True,
+B02,兜底,v2_role_fewshot,今天天气怎么样,,True,0,0,0,0,1.0,1.0,1.0,True,
+S01,简单,v3_rule,圈出所有钻石会员,SELECT user_id FROM user_tags WHERE member_level = '钻石',True,0,125,125,125,1.0,1.0,1.0,True,
+S02,简单,v3_rule,圈出高价值用户,SELECT user_id FROM user_tags WHERE is_high_value = 1,True,0,961,961,961,1.0,1.0,1.0,True,
+S03,简单,v3_rule,圈出偏好美妆的用户,SELECT user_id FROM user_tags WHERE category_pref = '美妆',True,0,743,743,743,1.0,1.0,1.0,True,
+S04,简单,v3_rule,圈出女性用户,SELECT user_id FROM user_tags WHERE gender = '女',True,0,1613,1613,1613,1.0,1.0,1.0,True,
+S05,简单,v3_rule,圈出一线城市用户,SELECT user_id FROM user_tags WHERE city_tier = '一线',True,0,444,444,444,1.0,1.0,1.0,True,
+S06,简单,v3_rule,圈出开启了推送的用户,SELECT user_id FROM user_tags WHERE push_enabled = 1,True,0,1626,1626,1626,1.0,1.0,1.0,True,
+S07,简单,v3_rule,圈出流失预警用户,SELECT user_id FROM user_tags WHERE churn_risk = 1,True,0,345,345,345,1.0,1.0,1.0,True,
+S08,简单,v3_rule,圈出近30天有加购行为的用户,SELECT user_id FROM user_tags WHERE add_cart_30d = 1,True,0,1038,1038,1038,1.0,1.0,1.0,True,
+S09,简单,v3_rule,圈出银卡会员,SELECT user_id FROM user_tags WHERE member_level = '银卡',True,0,771,771,771,1.0,1.0,1.0,True,
+S10,简单,v3_rule,圈出18到25岁的用户,SELECT user_id FROM user_tags WHERE age BETWEEN 18 AND 25,True,0,677,677,677,1.0,1.0,1.0,True,
+C01,组合,v3_rule,圈出近30天加购但未下单的高价值用户,SELECT user_id FROM user_tags WHERE add_cart_30d = 1 AND order_30d = 0 AND is_high_value = 1,True,0,164,164,164,1.0,1.0,1.0,True,
+C02,组合,v3_rule,圈出流失预警的美妆用户,SELECT user_id FROM user_tags WHERE churn_risk = 1 AND category_pref = '美妆',True,0,92,92,92,1.0,1.0,1.0,True,
+C03,组合,v3_rule,圈出一线和新一线城市的女性金卡会员,"SELECT user_id FROM user_tags WHERE city_tier IN ('一线', '新一线') AND gender = '女' AND member_level = '金卡'",True,0,99,99,99,1.0,1.0,1.0,True,
+C04,组合,v3_rule,圈出近30天有下单但没开推送的用户,SELECT user_id FROM user_tags WHERE order_30d = 1 AND push_enabled = 0,True,0,353,353,353,1.0,1.0,1.0,True,
+C05,组合,v3_rule,圈出三线及以下城市的母婴偏好用户,SELECT user_id FROM user_tags WHERE city_tier = '三线及以下' AND category_pref = '母婴',True,0,92,92,92,1.0,1.0,1.0,True,
+C06,组合,v3_rule,圈出近90天购买3次及以上的数码用户,SELECT user_id FROM user_tags WHERE purchase_90d_cnt >= 3 AND category_pref = '数码',True,0,161,161,161,1.0,1.0,1.0,True,
+C07,组合,v3_rule,圈出用过优惠券的服饰偏好女性用户,SELECT user_id FROM user_tags WHERE coupon_user = 1 AND category_pref = '服饰' AND gender = '女',True,0,118,118,118,1.0,1.0,1.0,True,
+C08,组合,v3_rule,圈出26到40岁的食品偏好用户,SELECT user_id FROM user_tags WHERE age BETWEEN 26 AND 40 AND category_pref = '食品',True,0,352,352,352,1.0,1.0,1.0,True,
+T01,时间,v3_rule,圈出近7天活跃的用户,"SELECT user_id FROM user_tags WHERE last_active_date >= date('2026-10-10', '-7 day')",True,0,827,827,827,1.0,1.0,1.0,True,
+T02,时间,v3_rule,圈出近30天有下单的用户,"SELECT user_id FROM user_tags WHERE last_order_date >= date('2026-10-10', '-30 day')",True,0,735,735,735,1.0,1.0,1.0,True,
+T03,时间,v3_rule,圈出超过60天没活跃的沉默用户,"SELECT user_id FROM user_tags WHERE last_active_date <= date('2026-10-10', '-60 day')",True,0,225,225,225,1.0,1.0,1.0,True,
+T04,时间,v3_rule,圈出近90天购买2次及以上的用户,SELECT user_id FROM user_tags WHERE purchase_90d_cnt >= 2,True,0,1268,1268,1268,1.0,1.0,1.0,True,
+T05,时间,v3_rule,圈出近30天注册的新用户,"SELECT user_id FROM user_tags WHERE register_date >= date('2026-10-10', '-33 day')",True,0,152,134,134,0.8816,1.0,0.9371,False,时间口径错误（基准日/窗口天数/NULL处理）
+T06,时间,v3_rule,圈出近14天活跃但近30天没下单的用户,"SELECT user_id FROM user_tags WHERE last_active_date >= date('2026-10-10', '-14 day') AND (last_order_date < date('2026-10-10', '-30 day') OR last_order_date IS NULL)",True,0,1029,1029,1029,1.0,1.0,1.0,True,
+A01,歧义,v3_rule,圈出活跃用户,"SELECT user_id FROM user_tags WHERE last_active_date >= date('2026-10-10', '-7 day')",True,0,827,827,827,1.0,1.0,1.0,True,
+A02,歧义,v3_rule,圈出老客,"SELECT user_id FROM user_tags WHERE register_date <= date('2026-10-10', '-180 day')",True,0,2199,2199,2199,1.0,1.0,1.0,True,
+A03,歧义,v3_rule,圈出高潜用户,SELECT user_id FROM user_tags WHERE add_cart_30d = 1 AND order_30d = 0,True,0,761,761,761,1.0,1.0,1.0,True,
+X01,矛盾,v3_rule,圈出金卡会员且从未注册的用户,SELECT user_id FROM user_tags WHERE member_level = '金卡' AND register_date IS NULL,True,0,0,0,0,1.0,1.0,1.0,True,
+X02,矛盾,v3_rule,圈出近30天下单超过5次且近90天购买次数为0的用户,SELECT user_id FROM user_tags WHERE order_cnt_30d > 5 AND purchase_90d_cnt = 0,True,0,0,0,0,1.0,1.0,1.0,True,
+X03,矛盾,v3_rule,圈出年龄小于18岁且大于60岁的用户,SELECT user_id FROM user_tags WHERE age < 18 AND age > 60,True,0,0,0,0,1.0,1.0,1.0,True,
+B01,兜底,v3_rule,你们这个产品是干嘛的？,,True,0,0,0,0,1.0,1.0,1.0,True,
+B02,兜底,v3_rule,今天天气怎么样,,True,0,0,0,0,1.0,1.0,1.0,True,

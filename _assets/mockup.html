@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Microsoft YaHei", sans-serif; background: #fff; padding: 12px; width: 900px; }
+  .mock { border: 1px solid #e2e8ef; border-radius: 10px; overflow: hidden; }
+  .hd { background: #1f6feb; color: #fff; padding: 9px 16px; font-size: 13px; font-weight: 600;
+        display: flex; justify-content: space-between; align-items: center; }
+  .bd { font-size: 9px; background: rgba(255,255,255,.2); padding: 2px 9px; border-radius: 10px; margin-left: 6px; }
+  .bd2 { background: #ff9f43; color: #5a3200; font-weight: 600; }
+  .body { display: flex; gap: 12px; padding: 13px; background: #f7f9fc; }
+  .main { flex: 1; min-width: 0; }
+  .in { display: flex; gap: 8px; margin-bottom: 8px; }
+  .q { flex: 1; background: #fff; border: 1px solid #e2e8ef; border-radius: 7px; padding: 8px 12px; font-size: 11px; color: #22303d; }
+  .btn { background: #1f6feb; color: #fff; border: none; border-radius: 7px; padding: 0 22px; font-size: 11px; }
+  .card { background: #fff; border: 1px solid #e2e8ef; border-radius: 9px; padding: 13px; }
+  .ms { display: flex; gap: 8px; margin-bottom: 9px; }
+  .ms div { flex: 1; background: #f7f9fc; border: 1px solid #e2e8ef; border-radius: 7px; padding: 7px; text-align: center; }
+  .ms .k { font-size: 9px; color: #7b8b9c; }
+  .ms .v { font-size: 17px; font-weight: 700; color: #1f6feb; }
+  .ms .v.r { color: #c0392b; }
+  .sql { background: #f6f8fa; border: 1px solid #e2e8ef; border-left: 3px solid #8fa6bd; border-radius: 6px;
+         padding: 7px 12px; font-size: 9.5px; font-family: Consolas, monospace; color: #1f3b57; margin-bottom: 8px; }
+  h5 { font-size: 11px; color: #12395f; margin: 9px 0 5px; }
+  .bars { display: flex; gap: 12px; }
+  .bars > div { flex: 1; }
+  .br { display: flex; align-items: center; font-size: 9.5px; margin-bottom: 4px; }
+  .br .lb { width: 44px; color: #7b8b9c; text-align: right; padding-right: 6px; }
+  .br .bar { flex: 1; height: 11px; background: #eef2f7; border-radius: 6px; overflow: hidden; }
+  .br .bar i { display: block; height: 100%; background: #1f6feb; }
+  .br .pc { width: 56px; padding-left: 6px; color: #7b8b9c; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5px; margin: 8px 0 10px; }
+  th { background: #f2f6fb; color: #5a6b7d; font-weight: 600; text-align: left; padding: 5px 8px; border: 1px solid #e2e8ef; }
+  td { padding: 5px 8px; border: 1px solid #e2e8ef; color: #3a4a5a; }
+  .export { display: inline-block; background: #fff; color: #1f6feb; border: 1px solid #1f6feb; border-radius: 6px; padding: 4px 14px; font-size: 10px; }
+  .side { width: 180px; flex-shrink: 0; }
+  .side h6 { font-size: 12px; color: #12395f; margin: 0 0 8px; }
+  .hi { background: #fff; border: 1px solid #e2e8ef; border-radius: 8px; padding: 8px 11px; margin-bottom: 8px; font-size: 10px; color: #22303d; }
+  .hi .m { font-size: 8.5px; color: #9aa9b8; margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="mock">
+  <div class="hd"><span>人群圈选 Agent</span><span><span class="bd bd2">真实模式 · deepseek-chat</span><span class="bd">库内 3000 用户</span></span></div>
+  <div class="body">
+    <div class="main">
+      <div class="in"><div class="q">圈出近30天加购但未下单的高价值用户</div><div class="btn">圈 选</div></div>
+      <div class="card">
+        <div class="ms">
+          <div><div class="k">命中人数</div><div class="v r">164</div></div>
+          <div><div class="k">自愈重试</div><div class="v">0 次</div></div>
+          <div><div class="k">耗时</div><div class="v">1.2s</div></div>
+        </div>
+        <div class="sql">SELECT user_id FROM user_tags WHERE add_cart_30d = 1 AND order_30d = 0 AND is_high_value = 1</div>
+        <h5>人群画像</h5>
+        <div class="bars">
+          <div>
+            <div class="br"><span class="lb">性别</span><span class="bar"><i style="width:58%"></i></span><span class="pc">女 58%</span></div>
+            <div class="br"><span class="lb">城市</span><span class="bar"><i style="width:41%"></i></span><span class="pc">一线 41%</span></div>
+          </div>
+          <div>
+            <div class="br"><span class="lb">会员</span><span class="bar"><i style="width:86%"></i></span><span class="pc">钻石 86%</span></div>
+            <div class="br"><span class="lb">品类</span><span class="bar"><i style="width:62%"></i></span><span class="pc">美妆 62%</span></div>
+          </div>
+        </div>
+        <h5>名单预览（前 3 条）</h5>
+        <table>
+          <tr><th>用户ID</th><th>性别</th><th>年龄</th><th>城市</th><th>会员</th><th>品类</th></tr>
+          <tr><td>1007</td><td>女</td><td>28</td><td>一线</td><td>钻石</td><td>美妆</td></tr>
+          <tr><td>1042</td><td>女</td><td>33</td><td>一线</td><td>钻石</td><td>美妆</td></tr>
+          <tr><td>1091</td><td>女</td><td>26</td><td>新一线</td><td>钻石</td><td>服饰</td></tr>
+        </table>
+        <span class="export">导出完整名单 CSV</span>
+      </div>
+    </div>
+    <div class="side">
+      <h6>圈选历史</h6>
+      <div class="hi">圈出近30天加购但未下单的高价值用户<div class="m">09:42 · 164 人 · 1.2s</div></div>
+      <div class="hi">圈出流失预警的美妆用户<div class="m">09:15 · 237 人 · 0.9s</div></div>
+      <div class="hi">圈出超过60天没活跃的沉默用户<div class="m">08:57 · 225 人 · 1.1s</div></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
